@@ -21,6 +21,21 @@ class RegistrationController extends GetxController {
   final TextEditingController confirmPasswordController =
   TextEditingController();
 
+  final TextEditingController cityController =
+  TextEditingController();
+
+  final TextEditingController stateController =
+  TextEditingController();
+
+  final TextEditingController societyController =
+  TextEditingController();
+
+  final TextEditingController towerController =
+  TextEditingController();
+
+  final TextEditingController flatController =
+  TextEditingController();
+
   final RxString selectedRole = ''.obs;
 
   final RxString residentType = ''.obs;
@@ -57,15 +72,15 @@ class RegistrationController extends GetxController {
       residentType.value = '';
       residentTypeError.value = '';
       isOccupant.value = false;
+      flatController.clear();
+      towerController.clear();
     }
   }
 
   void selectResidentType(String type) {
     residentType.value = type;
-
     residentTypeError.value = '';
-
-    isOccupant.value = false;
+    // isOccupant.value = false;
   }
 
   bool validateRegistration() {
@@ -75,31 +90,79 @@ class RegistrationController extends GetxController {
     final bool isFormValid =
         formKey.currentState?.validate() ?? false;
 
-    if (selectedRole.value.isEmpty) {
-      roleError.value = 'Please select a Role';
-    }
-
-    if (selectedRole.value == 'Resident' &&
-        residentType.value.isEmpty) {
-      residentTypeError.value =
-      'Please select Owner or Tenant';
-    }
-
     return isFormValid &&
         roleError.value.isEmpty &&
         residentTypeError.value.isEmpty;
+  }
+
+  Future<void> openCitySelection() async {
+    final result = await Get.toNamed(
+      Routes.selection,
+      arguments: {
+        "title": "Select City",
+        "type": "city",
+      },
+    );
+
+    if (result != null) {
+      cityController.text = result;
+    }
+  }
+
+  Future<void> openStateSelection() async {
+    final result = await Get.toNamed(
+      Routes.selection,
+      arguments: {
+        "title": "Select State",
+        "type": "state",
+      },
+    );
+
+    if (result != null) {
+      stateController.text = result;
+    }
+  }
+
+  Future<void> openSocietySelection() async {
+    final result = await Get.toNamed(
+      Routes.selection,
+      arguments: {
+        "title": "Select Society",
+        "type": "society",
+      },
+    );
+
+    if (result != null) {
+      societyController.text = result;
+    }
   }
 
   void continueRegistration() {
     if (!validateRegistration()) {
       return;
     }
-    Get.toNamed(
-        Routes.societyInfo,
-      arguments: {
-          'role': selectedRole.value,
-      }
-
+    if (selectedRole.value.isEmpty) {
+      Get.snackbar(
+        "Error",
+        "Please choose a role to complete your information form.",
+        snackPosition: SnackPosition.TOP,
+      );
+      return;
+    }
+    if (selectedRole.value == 'Resident' &&
+        residentType.value.isEmpty) {
+      Get.snackbar(
+        "Selection Required",
+        "Please specify if you are an Owner or a Tenant.",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
+    }
+    Get.snackbar(
+      "Success",
+      "Registration and Society Details saved successfully!",
+      snackPosition: SnackPosition.TOP,
     );
   }
 
@@ -110,7 +173,11 @@ class RegistrationController extends GetxController {
     mobileController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
-
+    societyController.dispose();
+    cityController.dispose();
+    stateController.dispose();
+    flatController.dispose();
+    towerController.dispose();
     super.onClose();
   }
 }

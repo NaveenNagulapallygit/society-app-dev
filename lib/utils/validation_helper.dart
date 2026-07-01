@@ -25,6 +25,18 @@ class ValidationHelper {
     r'^[A-Za-z0-9\-\/ ]+$',
   );
 
+  // --- Validation Checks (Returning bool) ---
+  static bool isValidCity(String value) {
+    return value.trim().isNotEmpty;
+  }
+
+  static bool isValidState(String value) {
+    return value.trim().isNotEmpty;
+  }
+
+  static bool isValidSociety(String value) {
+    return value.trim().isNotEmpty;
+  }
 
   static bool isValidEmail(String email) {
     return _emailRegex.hasMatch(email.trim());
@@ -173,6 +185,29 @@ class ValidationHelper {
 
     return null;
   }
+
+
+  static String? validateCity(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "Please select a City";
+    }
+    return null;
+  }
+
+  static String? validateState(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "Please select a State";
+    }
+    return null;
+  }
+
+  static String? validateSociety(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "Please select a Society";
+    }
+    return null;
+  }
+
 
   static String? validateRequired(
       String? value,
