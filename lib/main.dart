@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:society_app/constants/app_theme.dart';
 import 'package:society_app/routing/app_pages.dart';
 import 'package:society_app/routing/app_routes.dart';
+import 'package:society_app/utils/shared_preference_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
+  await SharedPreferenceService.init();
   runApp(const MyApp());
 }
 

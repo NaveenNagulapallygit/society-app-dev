@@ -1,15 +1,12 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/routing/app_routes.dart';
 import 'package:society_app/utils/common_snackbar.dart';
+import 'package:society_app/utils/shared_preference_service.dart';
 
 class OtpController extends GetxController {
-
-  final box = GetStorage();
 
   final List<TextEditingController> otpControllers =
   List.generate(
@@ -34,10 +31,14 @@ class OtpController extends GetxController {
     }
 
     String storedOtp =
-        box.read(AppStrings.otp) ?? '';
+    SharedPreferenceService.getString(
+      AppStrings.storageOtp,
+    );
 
     String expiryString =
-        box.read(AppStrings.otpExpiry) ?? '';
+    SharedPreferenceService.getString(
+      AppStrings.otpExpiry,
+    );
 
     if (expiryString.isEmpty) {
       CommonSnackbar.show(
@@ -74,17 +75,20 @@ class OtpController extends GetxController {
     }
   }
 
-  void resendOtp() {
+  Future<void> resendOtp() async {
     String otp =
     (100000 + Random().nextInt(900000))
         .toString();
-    box.write(AppStrings.otp, otp);
-    print("Resent OTP : $otp");
-    box.write(
+
+    await SharedPreferenceService.setString(
+      AppStrings.storageOtp,
+      otp,
+    );
+    debugPrint("Resent OTP : $otp");
+    await SharedPreferenceService.setString(
       AppStrings.otpExpiry,
-      DateTime.now()
-          .add(
-        const Duration(minutes: 2),
+      DateTime.now().add(
+         Duration(minutes: 2),
       ).toIso8601String(),
     );
     clearOtpFields();

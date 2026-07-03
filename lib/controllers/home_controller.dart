@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/routing/app_routes.dart';
 import 'package:society_app/utils/common_snackbar.dart';
+import 'package:society_app/utils/shared_preference_service.dart';
 
 class HomeController extends GetxController {
-  final box = GetStorage();
   Timer? sessionTimer;
 
   @override
@@ -30,8 +29,10 @@ class HomeController extends GetxController {
     startSessionTimer();
   }
 
-  void logoutDueToTimeout() {
-    box.remove(AppStrings.isLoggedIn);
+  Future<void> logoutDueToTimeout() async {
+    await SharedPreferenceService.remove(
+        AppStrings.storageIsLoggedIn,
+    );
     Get.offAllNamed(Routes.login);
     CommonSnackbar.show(
         type: SnackbarType.warning,
@@ -39,9 +40,11 @@ class HomeController extends GetxController {
     );
   }
 
-  void logout() {
+  Future<void> logout() async {
     sessionTimer?.cancel();
-    box.remove(AppStrings.isLoggedIn);
+    await SharedPreferenceService.remove(
+        AppStrings.storageIsLoggedIn,
+    );
     Get.offAllNamed(Routes.login);
   }
 

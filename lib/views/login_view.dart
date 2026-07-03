@@ -36,10 +36,10 @@ class LoginView extends GetView<LoginController> {
                 Container(
                   height: Get.height * 0.35,
                   margin: EdgeInsets.all(15),
-                  child: ClipRRect(
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
-                    child: Image.asset(
-                      AppImages.building,
+                    image: DecorationImage(
+                      image: AssetImage(AppImages.building),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -88,14 +88,13 @@ class LoginView extends GetView<LoginController> {
                             mainAxisAlignment:
                             MainAxisAlignment.spaceBetween,
                             children: [
-
                               Row(
                                 children: [
-
                                   Checkbox(
                                     value: controller.rememberMe.value,
                                     onChanged:
                                     controller.toggleRememberMe,
+                                    activeColor: AppColors.primary,
                                   ),
 
                                    Text(

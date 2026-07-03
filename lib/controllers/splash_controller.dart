@@ -1,14 +1,10 @@
 import 'dart:async';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/routing/app_routes.dart';
+import 'package:society_app/utils/shared_preference_service.dart';
 
 class SplashController extends GetxController {
-
-
-  final GetStorage box = GetStorage();
-
   @override
   void onInit() {
     super.onInit();
@@ -21,8 +17,10 @@ class SplashController extends GetxController {
       const Duration(seconds: 2),
           () {
 
-        final bool isLoggedIn =
-            box.read(AppStrings.isLoggedIn) ?? false;
+            final bool isLoggedIn =
+            SharedPreferenceService.getBool(
+              AppStrings.storageIsLoggedIn,
+            );
 
         if (isLoggedIn) {
           Get.offAllNamed(

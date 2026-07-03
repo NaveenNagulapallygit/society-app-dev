@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/routing/app_routes.dart';
 import 'package:society_app/utils/common_snackbar.dart';
@@ -14,8 +13,6 @@ class ResetPasswordController extends GetxController {
 
   final TextEditingController confirmPasswordController =
   TextEditingController();
-
-  final GetStorage box = GetStorage();
 
   RxBool isPasswordVisible = true.obs;
 

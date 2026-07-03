@@ -31,7 +31,6 @@ class AppStrings {
   static const String resendOtp = "Resend OTP";
   static const String createNewPassword = "Create a new password for your account";
   static const String enterCompleteOtp = "Please enter complete OTP";
-  static const String otp = "otp";
   static const String otpExpiry = "otpExpiry";
   static const String otpNotFound = "OTP Not Found";
   static const String expired = "Expired";
@@ -40,7 +39,6 @@ class AppStrings {
   static const String invalidOtp = "Invalid OTP";
   static const String otpResendSuccessfully = "OTP Resent Successfully";
   static const String otpSentSuccessfully = "OTP sent successfully.";
-  static const String isLoggedIn = "isLoggedIn";
   static const String sessionExpired = "Session Expired";
   static const String pleaseLoginAgain = "Please login again";
   static const String mobile = "mobile";
@@ -103,4 +101,12 @@ class AppStrings {
   static const String currentlyOccupant = "Currently Occupant ?";
   static const String tenant = "Tenant";
   static const String warning = "Warning";
+  static const String fillSocietyDetails = "Please fill all society details.";
+  static const String next = "Next";
+  static const String back = "Back";
+
+  // Storage Keys
+  static const String storageIsLoggedIn = "isLoggedIn";
+  static const String storageRememberMe = "rememberMe";
+  static const String storageOtp = "otp";
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/routing/app_routes.dart';
+import 'package:society_app/utils/shared_preference_service.dart';
 
 class LoginController extends GetxController {
 
@@ -11,8 +11,6 @@ class LoginController extends GetxController {
   final TextEditingController mobileController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
-
-  final GetStorage box = GetStorage();
 
   final RxBool isPasswordVisible = true.obs;
 
@@ -28,17 +26,24 @@ class LoginController extends GetxController {
     isPasswordVisible.toggle();
   }
 
-  void toggleRememberMe(bool? value) {
+  Future<void> toggleRememberMe(bool? value) async {
     rememberMe.value = value ?? false;
-
-    if (!rememberMe.value) {
-      box.remove(AppStrings.mobile);
-      box.remove(AppStrings.password.toLowerCase());
-      box.write('rememberMe', false);
+    if(!rememberMe.value) {
+      await SharedPreferenceService.remove(
+          AppStrings.mobile,
+      );
+      await SharedPreferenceService.remove(
+          AppStrings.password.toLowerCase(),
+      );
+      await SharedPreferenceService.setBool(
+          AppStrings.storageRememberMe,
+          false,
+      );
     }
   }
 
-  void login() {
+  Future<void> login() async {
+
     if (!(formKey.currentState?.validate() ?? false)) {
       return;
     }
@@ -47,26 +52,67 @@ class LoginController extends GetxController {
     final String password = passwordController.text.trim();
 
     if (rememberMe.value) {
-      box.write(AppStrings.mobile, mobile);
-      box.write(AppStrings.password.toLowerCase(), password);
-      box.write('rememberMe', true);
+
+      await SharedPreferenceService.setString(
+        AppStrings.mobile,
+        mobile,
+      );
+
+      await SharedPreferenceService.setString(
+        AppStrings.password.toLowerCase(),
+        password,
+      );
+
+      await SharedPreferenceService.setBool(
+        AppStrings.storageRememberMe,
+        true,
+      );
+
     } else {
-      box.remove(AppStrings.mobile);
-      box.remove(AppStrings.password.toLowerCase());
-      box.write('rememberMe', false);
+
+      await SharedPreferenceService.remove(
+        AppStrings.mobile,
+      );
+
+      await SharedPreferenceService.remove(
+        AppStrings.password.toLowerCase(),
+      );
+
+      await SharedPreferenceService.setBool(
+        AppStrings.storageRememberMe,
+        false,
+      );
     }
 
-    box.write(AppStrings.isLoggedIn, true);
+    await SharedPreferenceService.setBool(
+      AppStrings.storageIsLoggedIn,
+      true,
+    );
 
-    Get.offAllNamed(Routes.home);
+    Get.offAllNamed(
+      Routes.home,
+    );
   }
 
   void loadSavedData() {
-    final bool savedRememberMe = box.read('rememberMe') ?? false;
+
+    final bool savedRememberMe =
+    SharedPreferenceService.getBool(
+      AppStrings.storageRememberMe,
+    );
 
     if (savedRememberMe) {
-      mobileController.text = box.read(AppStrings.mobile) ?? '';
-      passwordController.text = box.read(AppStrings.password.toLowerCase()) ?? '';
+
+      mobileController.text =
+          SharedPreferenceService.getString(
+            AppStrings.mobile,
+          );
+
+      passwordController.text =
+          SharedPreferenceService.getString(
+            AppStrings.password.toLowerCase(),
+          );
+
       rememberMe.value = true;
     }
   }

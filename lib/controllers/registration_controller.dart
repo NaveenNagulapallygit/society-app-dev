@@ -52,6 +52,8 @@ class RegistrationController extends GetxController {
 
   final RxString residentTypeError = ''.obs;
 
+  final RxInt currentPage = 0.obs;
+
 
   void togglePassword() {
     isPasswordVisible.toggle();
@@ -82,7 +84,6 @@ class RegistrationController extends GetxController {
   void selectResidentType(String type) {
     residentType.value = type;
     residentTypeError.value = '';
-    // isOccupant.value = false;
   }
 
   bool validateRegistration() {
@@ -111,28 +112,60 @@ class RegistrationController extends GetxController {
     );
   }
 
+  void nextPage() {
+    currentPage.value = 1;
+  }
+
+
+  void previousPage() {
+    currentPage.value = 0;
+  }
+
   void continueRegistration() {
+
     if (!validateRegistration()) {
       return;
     }
+
     if (selectedRole.value.isEmpty) {
       CommonSnackbar.show(
-          type: SnackbarType.error,
-          message: AppStrings.chooseRoleToCompleteInfo,
+        type: SnackbarType.error,
+        message: AppStrings.chooseRoleToCompleteInfo,
       );
       return;
     }
+
     if (selectedRole.value == AppStrings.resident &&
         residentType.value.isEmpty) {
       CommonSnackbar.show(
-          type: SnackbarType.warning,
-          message: AppStrings.specifyOwnerOrTenant,
+        type: SnackbarType.warning,
+        message: AppStrings.specifyOwnerOrTenant,
       );
       return;
     }
+    nextPage();
+  }
+
+  void confirmRegistration() {
+
+    if (selectedRole.value == AppStrings.resident) {
+
+      if (stateController.text.trim().isEmpty ||
+          cityController.text.trim().isEmpty ||
+          societyController.text.trim().isEmpty ||
+          towerController.text.trim().isEmpty ||
+          flatController.text.trim().isEmpty) {
+
+        CommonSnackbar.show(
+          type: SnackbarType.warning,
+          message: AppStrings.fillSocietyDetails,
+        );
+        return;
+      }
+    }
     CommonSnackbar.show(
-        type: SnackbarType.success,
-        message: AppStrings.registrationSuccess,
+      type: SnackbarType.success,
+      message: AppStrings.registrationSuccess,
     );
   }
 

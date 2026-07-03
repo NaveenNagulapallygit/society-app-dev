@@ -1,11 +1,10 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/routing/app_routes.dart';
 import 'package:society_app/utils/common_snackbar.dart';
+import 'package:society_app/utils/shared_preference_service.dart';
 
 class ForgotPasswordController extends GetxController {
 
@@ -14,9 +13,8 @@ class ForgotPasswordController extends GetxController {
   final TextEditingController mobileEmailController =
   TextEditingController();
 
-  final GetStorage box = GetStorage();
 
-  void sendOtp() {
+  Future<void> sendOtp() async {
 
     final bool isValid =
         formKey.currentState?.validate() ?? false;
@@ -28,23 +26,17 @@ class ForgotPasswordController extends GetxController {
     String otp =
     (100000 + Random().nextInt(900000))
         .toString();
-
-    box.write(
-      AppStrings.otp,
-      otp,
+    await SharedPreferenceService.setString(
+        AppStrings.storageOtp,
+        otp
     );
 
-    box.write(
-      AppStrings.otpExpiry,
-      DateTime.now()
-          .add(
-        const Duration(
-          minutes: 2,
-        ),
-      )
-          .toIso8601String(),
+    await SharedPreferenceService.setString(
+        AppStrings.otpExpiry,
+        DateTime.now().add(
+            Duration(minutes: 2),
+        ).toIso8601String(),
     );
-
     debugPrint("Generated OTP : $otp");
 
     CommonSnackbar.show(
@@ -56,12 +48,9 @@ class ForgotPasswordController extends GetxController {
     );
   }
 
-
   @override
   void onClose() {
-
     mobileEmailController.dispose();
-
     super.onClose();
   }
 }
