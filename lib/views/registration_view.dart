@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/utils/validation_helper.dart';
 import 'package:society_app/widgets/custom_textfield.dart';
 import 'package:society_app/widgets/field_label.dart';
@@ -64,7 +65,7 @@ class RegistrationView extends GetView<RegistrationController> {
                                SizedBox(width: 12),
 
                                Text(
-                                "Personal Information",
+                                 AppStrings.personalInformation,
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -76,7 +77,7 @@ class RegistrationView extends GetView<RegistrationController> {
                            SizedBox(height: 25),
 
                            FieldLabel(
-                            title: "Full Name",
+                            title: AppStrings.fullName,
                             isRequired: true,
                           ),
 
@@ -84,7 +85,7 @@ class RegistrationView extends GetView<RegistrationController> {
 
                           CustomTextField(
                             controller: controller.fullNameController,
-                            hint: "Enter your full name",
+                            hint: AppStrings.enterFullName,
                             prefixIcon: Icons.person_outline,
                             keyboardType: TextInputType.name,
                             validator: ValidationHelper.validateName,
@@ -93,7 +94,7 @@ class RegistrationView extends GetView<RegistrationController> {
                            SizedBox(height: 18),
 
                            FieldLabel(
-                            title: "Email Address",
+                            title: AppStrings.emailAddress,
                             isRequired: true,
                           ),
 
@@ -101,7 +102,7 @@ class RegistrationView extends GetView<RegistrationController> {
 
                           CustomTextField(
                             controller: controller.emailController,
-                            hint: "Enter your email",
+                            hint: AppStrings.enterYourEmail,
                             prefixIcon: Icons.email_outlined,
                             keyboardType: TextInputType.emailAddress,
                             validator: ValidationHelper.validateEmail,
@@ -110,7 +111,7 @@ class RegistrationView extends GetView<RegistrationController> {
                            SizedBox(height: 18),
 
                            FieldLabel(
-                            title: "Mobile Number",
+                            title: AppStrings.mobileNumber,
                             isRequired: true,
                           ),
 
@@ -118,7 +119,7 @@ class RegistrationView extends GetView<RegistrationController> {
 
                           CustomTextField(
                             controller: controller.mobileController,
-                            hint: "Enter your mobile number",
+                            hint: AppStrings.enterYourMobileNumber,
                             prefixIcon: Icons.phone_android_outlined,
                             keyboardType: TextInputType.phone,
                             validator: ValidationHelper.validateMobile,
@@ -127,7 +128,7 @@ class RegistrationView extends GetView<RegistrationController> {
                            SizedBox(height: 18),
 
                            FieldLabel(
-                            title: "Password",
+                            title: AppStrings.password,
                             isRequired: true,
                           ),
 
@@ -136,7 +137,7 @@ class RegistrationView extends GetView<RegistrationController> {
                           Obx(
                                 () => CustomTextField(
                               controller: controller.passwordController,
-                              hint: "Create password",
+                              hint: AppStrings.createPassword,
                               prefixIcon: Icons.lock_outline,
                               obscureText:
                               controller.isPasswordVisible.value,
@@ -156,7 +157,7 @@ class RegistrationView extends GetView<RegistrationController> {
                            SizedBox(height: 18),
 
                            FieldLabel(
-                            title: "Confirm Password",
+                            title: AppStrings.confirmPassword,
                             isRequired: true,
                           ),
 
@@ -166,7 +167,7 @@ class RegistrationView extends GetView<RegistrationController> {
                                 () => CustomTextField(
                               controller:
                               controller.confirmPasswordController,
-                              hint: "Confirm password",
+                              hint: AppStrings.confirmPassword,
                               prefixIcon: Icons.lock_outline,
                               obscureText:
                               controller.isConfirmPasswordVisible.value,
@@ -228,7 +229,7 @@ class RegistrationView extends GetView<RegistrationController> {
                                SizedBox(width: 12),
 
                                Text(
-                                "Select Your Role",
+                                 AppStrings.selectYourRole,
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -244,37 +245,37 @@ class RegistrationView extends GetView<RegistrationController> {
                               children: [
 
                                 RoleCard(
-                                  title: "Society Admin",
+                                  title: AppStrings.societyAdmin,
                                   selected:
                                   controller.selectedRole.value ==
-                                      "Society Admin",
+                                      AppStrings.societyAdmin,
                                   onTap: () {
                                     controller.selectRole(
-                                      "Society Admin",
+                                      AppStrings.societyAdmin,
                                     );
                                   },
                                 ),
 
                                 RoleCard(
-                                  title: "Security Guard",
+                                  title: AppStrings.securityGuard,
                                   selected:
                                   controller.selectedRole.value ==
-                                      "Security Guard",
+                                      AppStrings.securityGuard,
                                   onTap: () {
                                     controller.selectRole(
-                                      "Security Guard",
+                                      AppStrings.securityGuard,
                                     );
                                   },
                                 ),
 
                                 RoleCard(
-                                  title: "Resident",
+                                  title: AppStrings.resident,
                                   selected:
                                   controller.selectedRole.value ==
-                                      "Resident",
+                                      AppStrings.resident,
                                   onTap: () {
                                     controller.selectRole(
-                                      "Resident",
+                                      AppStrings.resident,
                                     );
                                   },
                                 ),
@@ -285,22 +286,14 @@ class RegistrationView extends GetView<RegistrationController> {
                           Obx(
                                 () {
 
-                              if(controller.selectedRole.value != "Resident"){
+                              if(controller.selectedRole.value != AppStrings.resident){
                                 return const SizedBox();
                               }
                               return Column(
                                 crossAxisAlignment:
                                 CrossAxisAlignment.start,
                                 children: [
-
                                    SizedBox(height:20),
-
-                                   FieldLabel(
-                                    title: "Resident Type",
-                                    isRequired: true,
-                                  ),
-
-                                   SizedBox(height:15),
                                   OwnerTenantCard(
                                     selectedType:
                                     controller.residentType.value,
@@ -322,11 +315,11 @@ class RegistrationView extends GetView<RegistrationController> {
 
                     Obx(
                           () {
-                        if (controller.selectedRole.value != "Resident") {
+                        if (controller.selectedRole.value != AppStrings.resident) {
                           return  SizedBox();
                         }
 
-                        if (controller.residentType.value != "Owner") {
+                        if (controller.residentType.value != AppStrings.owner) {
                           return  SizedBox();
                         }
 
@@ -384,7 +377,7 @@ class RegistrationView extends GetView<RegistrationController> {
 
                                  Expanded(
                                   child: Text(
-                                    "Society Information",
+                                    AppStrings.societyInformation,
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -397,7 +390,7 @@ class RegistrationView extends GetView<RegistrationController> {
                              SizedBox(height: 25),
 
                              FieldLabel(
-                                 title: "Select your City",
+                                 title: AppStrings.selectYourCity,
                                  isRequired: true
                              ),
 
@@ -405,10 +398,14 @@ class RegistrationView extends GetView<RegistrationController> {
 
                             CustomTextField(
                               controller: controller.cityController,
-                              hint: "Select your City",
+                              hint: AppStrings.selectYourCity,
                               prefixIcon: Icons.location_city_outlined,
                               readOnly: true,
-                              onTap: controller.openCitySelection,
+                              onTap: () => controller.openSelection(
+                                  title: AppStrings.selectCity,
+                                  type: AppStrings.city,
+                                  controller: controller.cityController,
+                              ),
                                 suffixIcon:  Icon(Icons.keyboard_arrow_down),
                                 validator: (value) => ValidationHelper.validateRequired(value, "City")
                             ),
@@ -416,7 +413,7 @@ class RegistrationView extends GetView<RegistrationController> {
                              SizedBox(height: 18),
 
                              FieldLabel(
-                                 title: "Select your State",
+                                 title: AppStrings.selectYourState,
                                  isRequired: true
                              ),
 
@@ -424,10 +421,14 @@ class RegistrationView extends GetView<RegistrationController> {
 
                             CustomTextField(
                               controller: controller.stateController,
-                              hint: "Select your State",
+                              hint: AppStrings.selectYourState,
                               prefixIcon: Icons.map_outlined,
                               readOnly: true,
-                              onTap: controller.openStateSelection,
+                              onTap: () => controller.openSelection(
+                                title: AppStrings.selectState,
+                                type: AppStrings.state,
+                                controller: controller.stateController,
+                              ),
                               suffixIcon:  Icon(Icons.keyboard_arrow_down),
                                 validator: (value) => ValidationHelper.validateRequired(value, "State")
                             ),
@@ -435,7 +436,7 @@ class RegistrationView extends GetView<RegistrationController> {
                              SizedBox(height: 18),
 
                              FieldLabel(
-                                 title: "Select your Society",
+                                 title: AppStrings.selectYourSociety,
                                  isRequired: true
                              ),
 
@@ -443,19 +444,23 @@ class RegistrationView extends GetView<RegistrationController> {
 
                             CustomTextField(
                               controller: controller.societyController,
-                              hint: "Select your Society",
+                              hint: AppStrings.selectYourSociety,
                               prefixIcon: Icons.apartment_outlined,
                               readOnly: true,
-                              onTap: controller.openSocietySelection,
+                              onTap: () => controller.openSelection(
+                                  title: AppStrings.selectSociety,
+                                  type: AppStrings.society,
+                                  controller: controller.societyController,
+                              ),
                               suffixIcon: Icon(Icons.keyboard_arrow_down),
                                 validator: (value) => ValidationHelper.validateRequired(value, "Society"),
                             ),
 
                              SizedBox(height: 18),
 
-                            if (controller.selectedRole.value == "Resident") ...[
+                            if (controller.selectedRole.value == AppStrings.resident) ...[
                                FieldLabel(
-                                   title: "Tower Name / Street Name",
+                                   title: AppStrings.towerName,
                                    isRequired: true
                                ),
 
@@ -463,7 +468,7 @@ class RegistrationView extends GetView<RegistrationController> {
 
                               CustomTextField(
                                 controller: controller.towerController,
-                                hint: "Enter Tower Name / Street Name",
+                                hint: AppStrings.enterTowerName,
                                 prefixIcon: Icons.apartment_outlined,
                                 validator: ValidationHelper.validateTower,
                               ),
@@ -471,7 +476,7 @@ class RegistrationView extends GetView<RegistrationController> {
                                SizedBox(height: 20),
 
                                FieldLabel(
-                                   title: "Door No / Flat No",
+                                   title: AppStrings.doorNumber,
                                    isRequired: true
                                ),
 
@@ -479,7 +484,7 @@ class RegistrationView extends GetView<RegistrationController> {
 
                               CustomTextField(
                                 controller: controller.flatController,
-                                hint: "Enter Door No / Flat No",
+                                hint: AppStrings.enterDoorNumber,
                                 prefixIcon: Icons.home_outlined,
                                 validator: ValidationHelper.validateFlatNumber,
                               ),
@@ -510,7 +515,7 @@ class RegistrationView extends GetView<RegistrationController> {
                           ),
                         ),
                         child: Text(
-                          "Continue",
+                          AppStrings.cont,
                           style: TextStyle(
                             color: Theme.of(context).cardColor,
                             fontSize: 18,

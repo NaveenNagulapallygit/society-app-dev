@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:society_app/constants/app_strings.dart';
 import '../constants/app_colors.dart';
 import '../controllers/selection_controller.dart';
 
@@ -84,7 +85,7 @@ class SelectionView extends GetView<SelectionController> {
                       if (controller.filteredItems.isEmpty) {
                         return Center(
                           child: Text(
-                            "No Data Found",
+                            AppStrings.noDataFound,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey,
@@ -161,7 +162,7 @@ class SelectionView extends GetView<SelectionController> {
                       ),
                     ),
                     child:  Text(
-                      "Confirm",
+                      AppStrings.confirm,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,

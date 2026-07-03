@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/routing/app_routes.dart';
 import 'package:society_app/utils/validation_helper.dart';
 import 'package:society_app/widgets/custom_textfield.dart';
@@ -52,7 +53,7 @@ class LoginView extends GetView<LoginController> {
 
                         CustomTextField(
                           controller: controller.mobileController,
-                          hint: "Enter Mobile Number / Email",
+                          hint: AppStrings.enterEmailOrMobile,
                           prefixIcon: Icons.phone_android,
                           keyboardType: TextInputType.emailAddress,
                           validator: ValidationHelper.validateMobileOrEmail,
@@ -63,7 +64,7 @@ class LoginView extends GetView<LoginController> {
                         Obx(
                               () => CustomTextField(
                             controller: controller.passwordController,
-                            hint: "Enter Password",
+                            hint: AppStrings.enterPassword,
                             prefixIcon: Icons.lock_outline,
                             obscureText:
                             controller.isPasswordVisible.value,
@@ -98,7 +99,7 @@ class LoginView extends GetView<LoginController> {
                                   ),
 
                                    Text(
-                                    "Remember Me",
+                                     AppStrings.rememberMe,
                                     style: TextStyle(
                                       fontSize: 15,
                                     ),
@@ -113,7 +114,7 @@ class LoginView extends GetView<LoginController> {
                                   );
                                 },
                                 child: Text(
-                                  "Forgot Password?",
+                                  AppStrings.forgotPassword,
                                   style: TextStyle(
                                     color: AppColors.primary,
                                     fontWeight: FontWeight.w600,
@@ -138,7 +139,7 @@ class LoginView extends GetView<LoginController> {
                                 ),
                               ),
                               child: Text(
-                                "Login",
+                                AppStrings.login,
                                 style: TextStyle(
                                   color: Theme.of(context).cardColor,
                                   fontSize: 18,
@@ -155,7 +156,7 @@ class LoginView extends GetView<LoginController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                              Text(
-                              "New User?",
+                               AppStrings.newUser,
                               style: TextStyle(fontSize: 15),
                             ),
 
@@ -168,7 +169,7 @@ class LoginView extends GetView<LoginController> {
                                 );
                               },
                               child: Text(
-                                "Register",
+                                AppStrings.register,
                                 style: TextStyle(
                                   color: AppColors.primary,
                                   fontWeight: FontWeight.bold,
@@ -184,7 +185,7 @@ class LoginView extends GetView<LoginController> {
 
                         LoginOptionButton(
                           icon: Icons.admin_panel_settings_outlined,
-                          title: "Login as Admin",
+                          title: AppStrings.loginAsAdmin,
                           onTap: () {
 
                           },
@@ -194,7 +195,7 @@ class LoginView extends GetView<LoginController> {
 
                         LoginOptionButton(
                           icon: Icons.apartment_outlined,
-                          title: "Login as Resident",
+                          title: AppStrings.loginAsResident,
                           onTap: () {
 
                           },
@@ -204,7 +205,7 @@ class LoginView extends GetView<LoginController> {
 
                         LoginOptionButton(
                           icon: Icons.security_outlined,
-                          title: "Login as Security",
+                          title: AppStrings.loginAsSecurity,
                           onTap: () {
 
                           },

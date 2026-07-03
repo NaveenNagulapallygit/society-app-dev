@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:society_app/constants/app_strings.dart';
 import '../constants/app_colors.dart';
 
 class OwnerTenantCard extends StatelessWidget {
@@ -29,10 +30,10 @@ class OwnerTenantCard extends StatelessWidget {
         children: [
           Expanded(
             child: _buildItem(
-              title: "Owner",
+              title: AppStrings.owner,
               icon: Icons.person_add_alt_1_outlined,
               selected:
-              selectedType == "Owner",
+              selectedType == AppStrings.owner,
             ),
           ),
 
@@ -40,10 +41,10 @@ class OwnerTenantCard extends StatelessWidget {
 
           Expanded(
             child: _buildItem(
-              title: "Tenant",
+              title: AppStrings.tenant,
               icon: Icons.home_outlined,
               selected:
-              selectedType == "Tenant",
+              selectedType == AppStrings.tenant,
             ),
           ),
         ],

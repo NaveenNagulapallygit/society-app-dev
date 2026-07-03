@@ -7,6 +7,7 @@ class AppColors {
   static const Color primary = Color(0xFF1976D2);
   static const Color success = Colors.green;
   static const Color error = Colors.red;
+  static const Color warning = Colors.orange;
 
   //MARK:- Light Theme
   static const Color lightBackground = Color(0xFFF3F4F8);

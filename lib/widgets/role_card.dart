@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:society_app/constants/app_strings.dart';
 import '../constants/app_colors.dart';
 
 class RoleCard extends StatelessWidget {
@@ -98,13 +99,13 @@ class RoleCard extends StatelessWidget {
   IconData _getRoleIcon() {
     switch (title) {
 
-      case "Society Admin":
+      case AppStrings.societyAdmin:
         return Icons.admin_panel_settings_outlined;
 
-      case "Security Guard":
+      case AppStrings.securityGuard:
         return Icons.security_outlined;
 
-      case "Resident":
+      case AppStrings.resident:
         return Icons.person_outline;
 
       default:

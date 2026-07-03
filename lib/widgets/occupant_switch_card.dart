@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:society_app/constants/app_colors.dart';
+import 'package:society_app/constants/app_strings.dart';
 
 class OccupantSwitchCard extends StatelessWidget {
   final bool value;
@@ -30,7 +31,7 @@ class OccupantSwitchCard extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              "Currently Occupant ?",
+              AppStrings.currentlyOccupant,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w500,
               ),

@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/routing/app_routes.dart';
+import 'package:society_app/utils/common_snackbar.dart';
 
 class OtpController extends GetxController {
 
@@ -24,23 +26,23 @@ class OtpController extends GetxController {
   void verifyOtp() {
     String enteredOtp = getOtp();
     if (enteredOtp.length != 6) {
-      Get.snackbar(
-        "Error",
-        "Please enter complete OTP",
+      CommonSnackbar.show(
+          type: SnackbarType.error,
+          message: AppStrings.enterCompleteOtp,
       );
       return;
     }
 
     String storedOtp =
-        box.read('otp') ?? '';
+        box.read(AppStrings.otp) ?? '';
 
     String expiryString =
-        box.read('otpExpiry') ?? '';
+        box.read(AppStrings.otpExpiry) ?? '';
 
     if (expiryString.isEmpty) {
-      Get.snackbar(
-        "Error",
-        "OTP Not Found",
+      CommonSnackbar.show(
+          type: SnackbarType.error,
+          message: AppStrings.otpNotFound,
       );
       return;
     }
@@ -49,25 +51,25 @@ class OtpController extends GetxController {
     DateTime.parse(expiryString);
 
     if (DateTime.now().isAfter(expiry)) {
-      Get.snackbar(
-        "Expired",
-        "OTP has expired. Please request a new OTP.",
+      CommonSnackbar.show(
+          type: SnackbarType.warning,
+          message: AppStrings.otpExpired,
       );
       return;
     }
 
     if (enteredOtp == storedOtp) {
-      Get.snackbar(
-        "Success",
-        "OTP Verified Successfully",
+      CommonSnackbar.show(
+          type: SnackbarType.success,
+          message: AppStrings.otpVerifiedSuccessfully,
       );
       Get.toNamed(
         Routes.resetPassword,
       );
     } else {
-      Get.snackbar(
-        "Error",
-        "Invalid OTP",
+      CommonSnackbar.show(
+          type: SnackbarType.error,
+          message: AppStrings.invalidOtp,
       );
     }
   }
@@ -76,19 +78,19 @@ class OtpController extends GetxController {
     String otp =
     (100000 + Random().nextInt(900000))
         .toString();
-    box.write('otp', otp);
+    box.write(AppStrings.otp, otp);
     print("Resent OTP : $otp");
     box.write(
-      'otpExpiry',
+      AppStrings.otpExpiry,
       DateTime.now()
           .add(
         const Duration(minutes: 2),
       ).toIso8601String(),
     );
     clearOtpFields();
-    Get.snackbar(
-      "Success",
-      "OTP Resent Successfully",
+    CommonSnackbar.show(
+        type: SnackbarType.success,
+        message: AppStrings.otpResendSuccessfully,
     );
   }
 

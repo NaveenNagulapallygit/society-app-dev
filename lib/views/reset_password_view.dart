@@ -84,7 +84,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                    SizedBox(height: 35),
 
                    FieldLabel(
-                    title: "New Password",
+                    title: AppStrings.newPassword,
                     isRequired: true,
                   ),
 
@@ -113,7 +113,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                    SizedBox(height: 20),
 
                    FieldLabel(
-                    title: "Confirm Password",
+                    title: AppStrings.confirmPassword,
                     isRequired: true,
                   ),
 

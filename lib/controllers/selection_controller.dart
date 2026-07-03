@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:society_app/constants/app_strings.dart';
+import 'package:society_app/utils/common_snackbar.dart';
 
 class SelectionController extends GetxController {
 
@@ -33,7 +35,7 @@ class SelectionController extends GetxController {
 
     switch (type.value) {
 
-      case "city":
+      case AppStrings.city:
 
         items.assignAll([
           "Hyderabad",
@@ -50,7 +52,7 @@ class SelectionController extends GetxController {
 
         break;
 
-      case "state":
+      case AppStrings.state:
 
         items.assignAll([
           "Telangana",
@@ -67,7 +69,7 @@ class SelectionController extends GetxController {
 
         break;
 
-      case "society":
+      case AppStrings.society:
 
         items.assignAll([
           "My Home Bhooja",
@@ -121,13 +123,10 @@ class SelectionController extends GetxController {
   void confirmSelection() {
 
     if (selectedItem.value.isEmpty) {
-
-      Get.snackbar(
-        "Selection Required",
-        "Please select one item.",
-        snackPosition: SnackPosition.BOTTOM,
-      );
-
+       CommonSnackbar.show(
+           type: SnackbarType.warning,
+           message: AppStrings.selectOneItem,
+       );
       return;
     }
 

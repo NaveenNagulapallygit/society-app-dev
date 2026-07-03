@@ -70,6 +70,7 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:society_app/constants/app_strings.dart';
 
 class CreateAccountHeader extends StatelessWidget {
   const CreateAccountHeader({super.key});
@@ -94,7 +95,6 @@ class CreateAccountHeader extends StatelessWidget {
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
-            // Back Button Layer
             Positioned(
               left: 8,
               top: 0,
@@ -137,7 +137,7 @@ class CreateAccountHeader extends StatelessWidget {
                    SizedBox(height: 16),
 
                    Text(
-                    "Create Account",
+                     AppStrings.createAccount,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 28,
@@ -148,7 +148,7 @@ class CreateAccountHeader extends StatelessWidget {
                    SizedBox(height: 6),
 
                    Text(
-                    "Personal Information",
+                     AppStrings.personalInformation,
                     style: TextStyle(
                       color: Colors.white70,
                       fontSize: 16,

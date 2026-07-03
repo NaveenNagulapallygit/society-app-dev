@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/routing/app_routes.dart';
+import 'package:society_app/utils/common_snackbar.dart';
 
 class ForgotPasswordController extends GetxController {
 
@@ -28,12 +30,12 @@ class ForgotPasswordController extends GetxController {
         .toString();
 
     box.write(
-      "otp",
+      AppStrings.otp,
       otp,
     );
 
     box.write(
-      "otpExpiry",
+      AppStrings.otpExpiry,
       DateTime.now()
           .add(
         const Duration(
@@ -45,12 +47,10 @@ class ForgotPasswordController extends GetxController {
 
     debugPrint("Generated OTP : $otp");
 
-    Get.snackbar(
-      "Success",
-      "OTP sent successfully.",
-      snackPosition: SnackPosition.BOTTOM,
+    CommonSnackbar.show(
+        type: SnackbarType.success,
+        message: AppStrings.otpSentSuccessfully
     );
-
     Get.toNamed(
       Routes.otpVerification,
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/routing/app_routes.dart';
 
 class LoginController extends GetxController {
@@ -31,8 +32,8 @@ class LoginController extends GetxController {
     rememberMe.value = value ?? false;
 
     if (!rememberMe.value) {
-      box.remove('mobile');
-      box.remove('password');
+      box.remove(AppStrings.mobile);
+      box.remove(AppStrings.password.toLowerCase());
       box.write('rememberMe', false);
     }
   }
@@ -46,16 +47,16 @@ class LoginController extends GetxController {
     final String password = passwordController.text.trim();
 
     if (rememberMe.value) {
-      box.write('mobile', mobile);
-      box.write('password', password);
+      box.write(AppStrings.mobile, mobile);
+      box.write(AppStrings.password.toLowerCase(), password);
       box.write('rememberMe', true);
     } else {
-      box.remove('mobile');
-      box.remove('password');
+      box.remove(AppStrings.mobile);
+      box.remove(AppStrings.password.toLowerCase());
       box.write('rememberMe', false);
     }
 
-    box.write('isLoggedIn', true);
+    box.write(AppStrings.isLoggedIn, true);
 
     Get.offAllNamed(Routes.home);
   }
@@ -64,8 +65,8 @@ class LoginController extends GetxController {
     final bool savedRememberMe = box.read('rememberMe') ?? false;
 
     if (savedRememberMe) {
-      mobileController.text = box.read('mobile') ?? '';
-      passwordController.text = box.read('password') ?? '';
+      mobileController.text = box.read(AppStrings.mobile) ?? '';
+      passwordController.text = box.read(AppStrings.password.toLowerCase()) ?? '';
       rememberMe.value = true;
     }
   }

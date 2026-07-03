@@ -1,3 +1,5 @@
+import 'package:society_app/constants/app_strings.dart';
+
 class ValidationHelper {
   ValidationHelper._();
 
@@ -83,11 +85,11 @@ class ValidationHelper {
 
   static String? validateName(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Enter a Name";
+      return AppStrings.enterName;
     }
 
     if (!isValidName(value)) {
-      return "Enter a valid name";
+      return AppStrings.enterValidName;
     }
 
     return null;
@@ -95,22 +97,22 @@ class ValidationHelper {
 
   static String? validateEmail(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Enter a email address";
+      return AppStrings.enterEmailAddress;
     }
 
     if (!isValidEmail(value)) {
-      return "Enter a valid email address";
+      return AppStrings.enterValidEmailAddress;
     }
     return null;
   }
 
   static String? validateMobile(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Enter a Mobile number";
+      return AppStrings.enterMobileNumber;
     }
 
     if (!isValidMobile(value)) {
-      return "Enter a valid mobile number";
+      return AppStrings.enterValidMobileNumber;
     }
 
     return null;
@@ -118,11 +120,11 @@ class ValidationHelper {
 
   static String? validateMobileOrEmail(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Enter a Email or Mobile number";
+      return AppStrings.enterEmailOrMobile;
     }
 
     if (!isValidMobileOrEmail(value)) {
-      return "Enter a valid Email or Mobile number";
+      return AppStrings.enterValidEmailOrMobile;
     }
 
     return null;
@@ -130,11 +132,11 @@ class ValidationHelper {
 
   static String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return " Enter a Password";
+      return AppStrings.enterPassword;
     }
 
     if (!isValidPassword(value)) {
-      return "Enter valid password";
+      return AppStrings.enterValidPassword;
     }
     return null;
   }
@@ -144,11 +146,11 @@ class ValidationHelper {
       String password,
       ) {
     if (value == null || value.isEmpty) {
-      return "Enter a Confirm Password";
+      return AppStrings.enterConfirmPassword;
     }
 
     if (!isPasswordMatched(password, value)) {
-      return "Passwords do not match";
+      return AppStrings.passwordDoNotMatch;
     }
 
     return null;
@@ -156,11 +158,11 @@ class ValidationHelper {
 
   static String? validateOtp(String? value) {
     if (value == null || value.isEmpty) {
-      return "Enter 6-digit OTP";
+      return AppStrings.otp6digits;
     }
 
     if (!isValidOtp(value)) {
-      return "Enter a valid 6-digit OTP";
+      return AppStrings.enterValidOtp6Digit;
     }
 
     return null;
@@ -168,11 +170,11 @@ class ValidationHelper {
 
   static String? validateFlatNumber(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Enter a Flat Number";
+      return AppStrings.enterFlatNumber;
     }
 
     if (!isValidFlatNumber(value)) {
-      return "Enter a valid Flat Number";
+      return AppStrings.enterValidFlatNumber;
     }
 
     return null;
@@ -180,7 +182,7 @@ class ValidationHelper {
 
   static String? validateTower(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Enter a Tower Name / Street Name";
+      return AppStrings.enterTowerName;
     }
 
     return null;
@@ -189,21 +191,21 @@ class ValidationHelper {
 
   static String? validateCity(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Please select a City";
+      return AppStrings.selectACity;
     }
     return null;
   }
 
   static String? validateState(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Please select a State";
+      return AppStrings.selectAState;
     }
     return null;
   }
 
   static String? validateSociety(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Please select a Society";
+      return AppStrings.selectASociety;
     }
     return null;
   }

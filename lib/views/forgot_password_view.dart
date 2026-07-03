@@ -84,7 +84,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                    SizedBox(height: 35),
 
                    FieldLabel(
-                    title: "Mobile Number / Email",
+                    title: AppStrings.mobileEmail,
                     isRequired: true,
                   ),
 
@@ -92,7 +92,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
 
                   CustomTextField(
                     controller: controller.mobileEmailController,
-                    hint: "Enter Mobile Number or Email",
+                    hint: AppStrings.enterEmailOrMobile,
                     prefixIcon: Icons.phone_android_outlined,
                     keyboardType: TextInputType.emailAddress,
                     validator: ValidationHelper.validateMobileOrEmail,
@@ -113,7 +113,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                         ),
                       ),
                       child:  Text(
-                        "Send OTP",
+                        AppStrings.sendOtp,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,

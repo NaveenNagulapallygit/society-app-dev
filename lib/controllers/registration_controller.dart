@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/routing/app_routes.dart';
+import 'package:society_app/utils/common_snackbar.dart';
 
 class RegistrationController extends GetxController {
 
@@ -68,7 +70,7 @@ class RegistrationController extends GetxController {
 
     roleError.value = '';
 
-    if (role != 'Resident') {
+    if (role != AppStrings.resident) {
       residentType.value = '';
       residentTypeError.value = '';
       isOccupant.value = false;
@@ -95,46 +97,18 @@ class RegistrationController extends GetxController {
         residentTypeError.value.isEmpty;
   }
 
-  Future<void> openCitySelection() async {
+  Future<void> openSelection({
+    required String title,
+    required String type,
+    required TextEditingController controller,
+  }) async {
     final result = await Get.toNamed(
       Routes.selection,
       arguments: {
-        "title": "Select City",
-        "type": "city",
-      },
+        "title": title,
+        "type": type,
+      } ,
     );
-
-    if (result != null) {
-      cityController.text = result;
-    }
-  }
-
-  Future<void> openStateSelection() async {
-    final result = await Get.toNamed(
-      Routes.selection,
-      arguments: {
-        "title": "Select State",
-        "type": "state",
-      },
-    );
-
-    if (result != null) {
-      stateController.text = result;
-    }
-  }
-
-  Future<void> openSocietySelection() async {
-    final result = await Get.toNamed(
-      Routes.selection,
-      arguments: {
-        "title": "Select Society",
-        "type": "society",
-      },
-    );
-
-    if (result != null) {
-      societyController.text = result;
-    }
   }
 
   void continueRegistration() {
@@ -142,27 +116,23 @@ class RegistrationController extends GetxController {
       return;
     }
     if (selectedRole.value.isEmpty) {
-      Get.snackbar(
-        "Error",
-        "Please choose a role to complete your information form.",
-        snackPosition: SnackPosition.TOP,
+      CommonSnackbar.show(
+          type: SnackbarType.error,
+          message: AppStrings.chooseRoleToCompleteInfo,
       );
       return;
     }
-    if (selectedRole.value == 'Resident' &&
+    if (selectedRole.value == AppStrings.resident &&
         residentType.value.isEmpty) {
-      Get.snackbar(
-        "Selection Required",
-        "Please specify if you are an Owner or a Tenant.",
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.redAccent,
-        colorText: Colors.white,
+      CommonSnackbar.show(
+          type: SnackbarType.warning,
+          message: AppStrings.specifyOwnerOrTenant,
       );
+      return;
     }
-    Get.snackbar(
-      "Success",
-      "Registration and Society Details saved successfully!",
-      snackPosition: SnackPosition.TOP,
+    CommonSnackbar.show(
+        type: SnackbarType.success,
+        message: AppStrings.registrationSuccess,
     );
   }
 
