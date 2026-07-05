@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:society_app/constants/app_strings.dart';
-import 'package:society_app/routing/app_routes.dart';
 import 'package:society_app/utils/common_snackbar.dart';
 
 class RegistrationController extends GetxController {
@@ -38,6 +37,9 @@ class RegistrationController extends GetxController {
   final TextEditingController flatController =
   TextEditingController();
 
+  final TextEditingController searchController =
+  TextEditingController();
+
   final RxString selectedRole = ''.obs;
 
   final RxString residentType = ''.obs;
@@ -53,6 +55,18 @@ class RegistrationController extends GetxController {
   final RxString residentTypeError = ''.obs;
 
   final RxInt currentPage = 0.obs;
+
+  final RxString selectionTitle = ''.obs;
+
+  final RxString selectionType = ''.obs;
+
+  final RxList<String> selectionItems = <String>[].obs;
+
+  final RxList<String> filteredSelectionItems = <String>[].obs;
+
+  final RxString selectedSelectionItem = ''.obs;
+
+  late TextEditingController currentSelectionController;
 
 
   void togglePassword() {
@@ -98,20 +112,6 @@ class RegistrationController extends GetxController {
         residentTypeError.value.isEmpty;
   }
 
-  Future<void> openSelection({
-    required String title,
-    required String type,
-    required TextEditingController controller,
-  }) async {
-    final result = await Get.toNamed(
-      Routes.selection,
-      arguments: {
-        "title": title,
-        "type": type,
-      } ,
-    );
-  }
-
   void nextPage() {
     currentPage.value = 1;
   }
@@ -148,12 +148,20 @@ class RegistrationController extends GetxController {
 
   void confirmRegistration() {
 
+    if (stateController.text.trim().isEmpty ||
+        cityController.text.trim().isEmpty ||
+        societyController.text.trim().isEmpty) {
+
+      CommonSnackbar.show(
+        type: SnackbarType.warning,
+        message: AppStrings.fillSocietyDetails,
+      );
+      return;
+    }
+
     if (selectedRole.value == AppStrings.resident) {
 
-      if (stateController.text.trim().isEmpty ||
-          cityController.text.trim().isEmpty ||
-          societyController.text.trim().isEmpty ||
-          towerController.text.trim().isEmpty ||
+      if (towerController.text.trim().isEmpty ||
           flatController.text.trim().isEmpty) {
 
         CommonSnackbar.show(
@@ -169,6 +177,108 @@ class RegistrationController extends GetxController {
     );
   }
 
+  void loadSelectionItems() {
+
+    switch (selectionType.value) {
+
+      case AppStrings.city:
+
+        selectionItems.assignAll([
+          "Hyderabad",
+          "Chennai",
+          "Coimbatore",
+          "Bangalore",
+          "Mumbai",
+          "Delhi",
+          "Pune",
+          "Kolkata",
+          "Ahmedabad",
+          "Jaipur",
+        ]);
+
+        break;
+
+      case AppStrings.state:
+
+        selectionItems.assignAll([
+          "Telangana",
+          "Tamil Nadu",
+          "Karnataka",
+          "Maharashtra",
+          "Delhi",
+          "Gujarat",
+          "Rajasthan",
+          "Kerala",
+          "Andhra Pradesh",
+          "West Bengal",
+        ]);
+
+        break;
+
+      case AppStrings.society:
+
+        selectionItems.assignAll([
+          "My Home Bhooja",
+          "Prestige High Fields",
+          "Aparna Sarovar",
+          "Lodha Paradise",
+          "Ramky One",
+          "Brigade Cornerstone",
+          "Sobha Dream Acres",
+          "Phoenix Golf Edge",
+          "DSR Fortune Prime",
+          "Jayabheri Orange County",
+        ]);
+
+        break;
+
+      default:
+        selectionItems.clear();
+        break;
+    }
+    filteredSelectionItems.assignAll(selectionItems);
+  }
+
+  void searchSelection(String value) {
+    if (value.trim().isEmpty) {
+      filteredSelectionItems.assignAll(selectionItems);
+      return;
+    }
+    filteredSelectionItems.assignAll(
+
+      selectionItems.where(
+            (item) => item.toLowerCase().contains(value.toLowerCase()),
+      ).toList(),
+    );
+  }
+
+  void openSelection({
+    required String title,
+    required String type,
+    required TextEditingController controller,
+  }) {
+    selectionTitle.value = title;
+    selectionType.value = type;
+    currentSelectionController = controller;
+    selectedSelectionItem.value = controller.text;
+    searchController.clear();
+    loadSelectionItems();
+  }
+
+  void confirmSelection() {
+    if (selectedSelectionItem.value.isEmpty) {
+      CommonSnackbar.show(
+        type: SnackbarType.warning,
+        message: AppStrings.selectOneItem,
+      );
+      return;
+    }
+    currentSelectionController.text =
+        selectedSelectionItem.value;
+     searchController.clear();
+     filteredSelectionItems.assignAll(selectionItems);
+  }
+
   @override
   void onClose() {
     fullNameController.dispose();
@@ -181,6 +291,7 @@ class RegistrationController extends GetxController {
     stateController.dispose();
     flatController.dispose();
     towerController.dispose();
+    searchController.dispose();
     super.onClose();
   }
 }

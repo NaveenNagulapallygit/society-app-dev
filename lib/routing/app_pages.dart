@@ -5,7 +5,6 @@ import 'package:society_app/bindings/login_binding.dart';
 import 'package:society_app/bindings/otp_binding.dart';
 import 'package:society_app/bindings/registration_binding.dart';
 import 'package:society_app/bindings/reset_password_binding.dart';
-import 'package:society_app/bindings/selection_binding.dart';
 import 'package:society_app/bindings/splash_binding.dart';
 import 'package:society_app/routing/app_routes.dart';
 import 'package:society_app/views/forgot_password_view.dart';
@@ -14,7 +13,6 @@ import 'package:society_app/views/login_view.dart';
 import 'package:society_app/views/otp_view.dart';
 import 'package:society_app/views/registration_view.dart';
 import 'package:society_app/views/reset_password_view.dart';
-import 'package:society_app/views/selection_view.dart';
 import 'package:society_app/views/splash_view.dart';
 class AppPages {
   static final routes = [
@@ -58,12 +56,6 @@ class AppPages {
       name: Routes.resetPassword,
       page: () => ResetPasswordView(),
       binding: ResetPasswordBinding(),
-    ),
-
-    GetPage(
-      name: Routes.selection,
-      page: () => SelectionView(),
-      binding: SelectionBinding(),
     ),
   ];
 }

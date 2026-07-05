@@ -104,6 +104,7 @@ class AppStrings {
   static const String fillSocietyDetails = "Please fill all society details.";
   static const String next = "Next";
   static const String back = "Back";
+  static const String search = "Search";
 
   // Storage Keys
   static const String storageIsLoggedIn = "isLoggedIn";
