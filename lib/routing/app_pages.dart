@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:society_app/bindings/approval_pending_binding.dart';
 import 'package:society_app/bindings/forgot_password_binding.dart';
 import 'package:society_app/bindings/home_binding.dart';
 import 'package:society_app/bindings/login_binding.dart';
@@ -7,6 +8,7 @@ import 'package:society_app/bindings/registration_binding.dart';
 import 'package:society_app/bindings/reset_password_binding.dart';
 import 'package:society_app/bindings/splash_binding.dart';
 import 'package:society_app/routing/app_routes.dart';
+import 'package:society_app/views/approval_pending_view.dart';
 import 'package:society_app/views/forgot_password_view.dart';
 import 'package:society_app/views/home_view.dart';
 import 'package:society_app/views/login_view.dart';
@@ -56,6 +58,12 @@ class AppPages {
       name: Routes.resetPassword,
       page: () => ResetPasswordView(),
       binding: ResetPasswordBinding(),
+    ),
+
+    GetPage(
+      name: Routes.approvalPending,
+      page: () => ApprovalPendingView(),
+      binding: ApprovalPendingBinding(),
     ),
   ];
 }

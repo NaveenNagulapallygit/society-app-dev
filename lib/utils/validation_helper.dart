@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:society_app/constants/app_strings.dart';
 
 class ValidationHelper {
@@ -210,6 +211,14 @@ class ValidationHelper {
     return null;
   }
 
+  static bool validateSocietyInfoFields(List<TextEditingController> controllers) {
+     for(final field in controllers) {
+       if(field.text.trim().isEmpty) {
+          return false;
+       }
+     }
+     return true;
+  }
 
   static String? validateRequired(
       String? value,

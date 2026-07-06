@@ -8,6 +8,13 @@ class AppColors {
   static const Color success = Colors.green;
   static const Color error = Colors.red;
   static const Color warning = Colors.orange;
+  static const Color appTitle = Color(0xFF1E293B);
+  static const Color appSubTitle = Color(0xFF94A3B8);
+  static const Color appDescription = Color(0xFF64748B);
+  static const Color pendingStatusColor = Color(0xFFF59E0B);
+  static const Color pendingCardColor = Color(0xFFFEF3C7);
+  static const Color cardColor = Color(0xFFF8FAFC);
+
 
   //MARK:- Light Theme
   static const Color lightBackground = Color(0xFFF3F4F8);

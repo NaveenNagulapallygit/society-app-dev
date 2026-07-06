@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:society_app/constants/app_strings.dart';
+import 'package:society_app/routing/app_routes.dart';
 import 'package:society_app/utils/common_snackbar.dart';
+import 'package:society_app/utils/validation_helper.dart';
 
 class RegistrationController extends GetxController {
 
@@ -148,33 +150,31 @@ class RegistrationController extends GetxController {
 
   void confirmRegistration() {
 
-    if (stateController.text.trim().isEmpty ||
-        cityController.text.trim().isEmpty ||
-        societyController.text.trim().isEmpty) {
-
-      CommonSnackbar.show(
-        type: SnackbarType.warning,
-        message: AppStrings.fillSocietyDetails,
-      );
-      return;
-    }
+    final fieldsToValidate = <TextEditingController>[
+      cityController,
+      stateController,
+      societyController,
+    ];
 
     if (selectedRole.value == AppStrings.resident) {
 
-      if (towerController.text.trim().isEmpty ||
-          flatController.text.trim().isEmpty) {
-
+      fieldsToValidate.addAll([
+        towerController,
+        flatController,
+      ]);
+    }
+    if(!ValidationHelper.validateSocietyInfoFields(fieldsToValidate)) {
         CommonSnackbar.show(
           type: SnackbarType.warning,
           message: AppStrings.fillSocietyDetails,
         );
         return;
-      }
     }
     CommonSnackbar.show(
       type: SnackbarType.success,
       message: AppStrings.registrationSuccess,
     );
+    Get.toNamed(Routes.approvalPending);
   }
 
   void loadSelectionItems() {

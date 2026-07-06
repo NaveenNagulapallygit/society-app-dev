@@ -105,8 +105,15 @@ class AppStrings {
   static const String next = "Next";
   static const String back = "Back";
   static const String search = "Search";
+  static const String approvalPending = "Approval Pending";
+  static const String accountUnderReview = "Your account is under review";
+  static const String accountReviewDescription = "Our admin team is reviewing your registration details. You'll get notified via SMS & email once your account is approved.";
+  static const String yourAccountDetails = "Your Account Details";
+  static const String pending = "Pending";
+  static const String role = "Role";
+  static const String registeredOn = "Registered On";
 
-  // Storage Keys
+   // Storage Keys
   static const String storageIsLoggedIn = "isLoggedIn";
   static const String storageRememberMe = "rememberMe";
   static const String storageOtp = "otp";
