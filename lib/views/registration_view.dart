@@ -4,7 +4,6 @@ import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/utils/validation_helper.dart';
 import 'package:society_app/widgets/custom_textfield.dart';
 import 'package:society_app/widgets/field_label.dart';
-import 'package:society_app/widgets/occupant_switch_card.dart';
 import 'package:society_app/widgets/owner_tenant_card.dart';
 import 'package:society_app/widgets/role_card.dart';
 import '../constants/app_colors.dart';
@@ -416,10 +415,8 @@ class RegistrationView extends GetView<RegistrationController> {
                 prefixIcon: Icons.location_city_outlined,
                 readOnly: true,
                 onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (_) => selectionWidget(
+                  Get.to(
+                        () => selectionWidget(
                       context,
                       AppStrings.city,
                     ),
@@ -444,10 +441,8 @@ class RegistrationView extends GetView<RegistrationController> {
                 prefixIcon: Icons.map_outlined,
                 readOnly: true,
                 onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (_) => selectionWidget(
+                  Get.to(
+                        () => selectionWidget(
                       context,
                       AppStrings.state,
                     ),
@@ -472,10 +467,8 @@ class RegistrationView extends GetView<RegistrationController> {
               prefixIcon: Icons.apartment_outlined,
               readOnly: true,
               onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (_) => selectionWidget(
+                Get.to(
+                      () => selectionWidget(
                     context,
                     AppStrings.society,
                   ),
@@ -576,166 +569,137 @@ class RegistrationView extends GetView<RegistrationController> {
     );
   }
 
-  Widget selectionWidget(BuildContext context, String type,) {
+  Widget selectionWidget(BuildContext context, String type) {
     controller.selectionType.value = type;
     controller.loadSelectionItems();
-    return Container(
-      height: Get.height * 0.85,
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(25),
+
+    final String titleText = type == AppStrings.city
+        ? AppStrings.selectCity
+        : type == AppStrings.state
+        ? AppStrings.selectState
+        : AppStrings.selectSociety;
+
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: AppColors.primary,
+        title:  Text(
+          titleText,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).cardColor,
+          ),
         ),
       ),
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 18,
-            ),
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(25),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              CustomTextField(
+                controller: controller.searchController,
+                hint: AppStrings.search,
+                prefixIcon: Icons.search,
+                onChanged: controller.searchSelection,
               ),
-            ),
-            child: Row(
-              children: [
-                InkWell(
-                  onTap: () => Get.back(),
-                  child: Icon(
-                    Icons.arrow_back,
+               SizedBox(height: 16),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
                     color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                        color: AppColors.borderColor
+                    ),
                   ),
-                ),
-                SizedBox(width: 15),
-                Expanded(
-                  child: Text(
-                    type == AppStrings.city
-                        ? AppStrings.selectCity
-                        : type == AppStrings.state
-                        ? AppStrings.selectState
-                        : AppStrings.selectSociety,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  child: Obx(
+                        () => ListView.separated(
+                      itemCount: controller.filteredSelectionItems.length,
+                      separatorBuilder: (_, _) => Divider(
+                          height: 1,
+                          color: AppColors.borderColor
+                      ),
+                      itemBuilder: (context, index) {
+                        final item = controller.filteredSelectionItems[index];
+
+                        return Obx(() {
+                          final isSelected = controller.selectedSelectionItem.value == item;
+                          return ListTile(
+                            title: Text(
+                              item,
+                              style: const TextStyle(fontSize: 14, color: Colors.black87),
+                            ),
+                            trailing: Icon(
+                              isSelected ? Icons.check_circle : Icons.radio_button_off,
+                              color: isSelected ? AppColors.primary : Colors.black12,
+                            ),
+                            onTap: () {
+                              controller.selectedSelectionItem.value = item;
+                            },
+                          );
+                        });
+                      },
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
+              ),
+               SizedBox(height: 16),
 
-           SizedBox(height: 20),
+              SizedBox(
+                width: 160,
+                height: 45,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 0,
+                  ),
+                  onPressed: () {
+                    if (controller.selectedSelectionItem.value.isEmpty) {
+                      CommonSnackbar.show(
+                        type: SnackbarType.warning,
+                        message: AppStrings.selectOneItem,
+                      );
+                      return;
+                    }
 
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: CustomTextField(
-              controller: controller.searchController,
-              hint: AppStrings.search,
-              prefixIcon: Icons.search,
-              onChanged: controller.searchSelection,
-            ),
-          ),
+                    if (type == AppStrings.city) {
+                      controller.cityController.text = controller.selectedSelectionItem.value;
+                    } else if (type == AppStrings.state) {
+                      controller.stateController.text = controller.selectedSelectionItem.value;
+                    } else if (type == AppStrings.society) {
+                      controller.societyController.text = controller.selectedSelectionItem.value;
+                    }
 
-          SizedBox(height: 20),
+                    controller.searchController.clear();
+                    controller.selectedSelectionItem.value = "";
+                    controller.filteredSelectionItems.clear();
 
-          Expanded(
-            child: Obx(
-                  () => RadioGroup<String>(
-                groupValue: controller.selectedSelectionItem.value,
-                onChanged: (value) {
-                  controller.selectedSelectionItem.value = value ?? '';
-                },
-                child: ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: controller.filteredSelectionItems.length,
-                  itemBuilder: (_, index) {
-                    final item =
-                    controller.filteredSelectionItems[index];
-
-                    return Card(
-                      margin: EdgeInsets.only(bottom: 10),
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(12),
-                      ),
-                      child: RadioListTile<String>(
-                        value: item,
-                        activeColor: AppColors.primary,
-                        title: Text(
-                          item,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    );
+                    Get.back();
                   },
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.circular(12),
-                  ),
-                ),
-                onPressed: () {
-                  if (controller.selectedSelectionItem.value.isEmpty) {
-                    CommonSnackbar.show(
-                      type: SnackbarType.warning,
-                      message: AppStrings.selectOneItem,
-                    );
-
-                    return;
-                  }
-
-                  if (type == AppStrings.city) {
-                    controller.cityController.text =
-                        controller.selectedSelectionItem.value;
-                  }
-
-                  if (type == AppStrings.state) {
-                    controller.stateController.text =
-                        controller.selectedSelectionItem.value;
-                  }
-
-                  if (type == AppStrings.society) {
-                    controller.societyController.text =
-                        controller.selectedSelectionItem.value;
-                  }
-
-                  controller.searchController.clear();
-                  controller.selectedSelectionItem.value = "";
-                  controller.filteredSelectionItems.clear();
-
-                  Get.back();
-                },
-                child: Text(
-                  AppStrings.confirm,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                  child: Text(
+                    AppStrings.confirm,
+                    style:  TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

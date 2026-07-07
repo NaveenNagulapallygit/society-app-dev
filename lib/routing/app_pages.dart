@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:society_app/bindings/approval_pending_binding.dart';
 import 'package:society_app/bindings/forgot_password_binding.dart';
 import 'package:society_app/bindings/home_binding.dart';
 import 'package:society_app/bindings/login_binding.dart';
@@ -63,7 +62,6 @@ class AppPages {
     GetPage(
       name: Routes.approvalPending,
       page: () => ApprovalPendingView(),
-      binding: ApprovalPendingBinding(),
     ),
   ];
 }

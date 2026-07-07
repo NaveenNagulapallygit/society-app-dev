@@ -114,6 +114,25 @@ class RegistrationController extends GetxController {
         residentTypeError.value.isEmpty;
   }
 
+  String getFormattedDate() {
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    final now = DateTime.now();
+    return "${months[now.month - 1]} ${now.day}, ${now.year}";
+  }
+
   void nextPage() {
     currentPage.value = 1;
   }
@@ -174,7 +193,16 @@ class RegistrationController extends GetxController {
       type: SnackbarType.success,
       message: AppStrings.registrationSuccess,
     );
-    Get.toNamed(Routes.approvalPending);
+    Get.toNamed(
+      Routes.approvalPending,
+      arguments: {
+        "fullName": fullNameController.text.trim(),
+        "mobileNumber": mobileController.text.trim(),
+        "email": emailController.text.trim(),
+        "role": selectedRole.value,
+        "registeredOn": getFormattedDate(),
+      },
+    );
   }
 
   void loadSelectionItems() {
