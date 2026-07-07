@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:society_app/constants/app_colors.dart';
 import 'package:society_app/constants/app_images.dart';
@@ -98,8 +97,8 @@ class ApprovalPendingView extends StatelessWidget {
                               color: AppColors.primary.withValues(alpha: 0.08),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: SvgPicture.asset(
-                              "assets/icons/user.svg",
+                            child: Image.asset(
+                              AppImages.user,
                               height: 20,
                               width: 20,
                               fit: BoxFit.scaleDown,
@@ -153,22 +152,25 @@ class ApprovalPendingView extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
 
-                     AccountInfoTile(
-                      iconPath: "assets/icons/user.svg",
-                      label: AppStrings.fullName,
-                      value: userData["fullName"] ?? "" ,
-                    ),
+                     accountInfoTile(
+                         context: context,
+                         iconPath: AppImages.user,
+                         label: AppStrings.fullName,
+                         value: userData["fullName"] ?? "",
+                     ),
                      SizedBox(height: 15),
 
-                     AccountInfoTile(
-                      iconPath: "assets/icons/phone.svg",
+                    accountInfoTile(
+                      context: context,
+                      iconPath: AppImages.phone,
                       label: AppStrings.mobileNumber,
                       value: userData["mobileNumber"] ?? "",
                     ),
                      SizedBox(height: 15),
 
-                     AccountInfoTile(
-                      iconPath: "assets/icons/mail.svg",
+                    accountInfoTile(
+                      context: context,
+                      iconPath: AppImages.mail,
                       label: AppStrings.emailAddress,
                       value: userData["email"] ?? "",
                     ),
@@ -177,16 +179,19 @@ class ApprovalPendingView extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: AccountInfoTile(
-                            iconPath: "assets/icons/security.svg",
+                          child: accountInfoTile(
+                            context: context,
+                            iconPath: AppImages.role,
                             label: AppStrings.role,
                             value: userData["role"] ?? "",
                           ),
+
                         ),
                         SizedBox(width: 16),
                         Expanded(
-                          child: AccountInfoTile(
-                            iconPath: "assets/icons/calendar.svg",
+                          child: accountInfoTile(
+                            context: context,
+                            iconPath: AppImages.calendar,
                             label: AppStrings.registeredOn,
                             value: userData["registeredOn"] ?? "",
                           ),
@@ -202,21 +207,13 @@ class ApprovalPendingView extends StatelessWidget {
       ),
     );
   }
-}
 
-class AccountInfoTile extends StatelessWidget {
-  final String iconPath;
-  final String label;
-  final String value;
-
-  const AccountInfoTile({super.key,
-    required this.iconPath,
-    required this.label,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  Widget accountInfoTile ({
+    required BuildContext context,
+    required String iconPath,
+    required String label,
+    required String value,
+}) {
     return Container(
       padding: EdgeInsets.symmetric(
           horizontal: 16,
@@ -236,14 +233,14 @@ class AccountInfoTile extends StatelessWidget {
               color: AppColors.primary.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(14),
             ),
-            child: SvgPicture.asset(
+            child: Image.asset(
               iconPath,
               height: 20,
               width: 20,
               fit: BoxFit.scaleDown,
             ),
           ),
-           SizedBox(width: 15),
+          SizedBox(width: 15),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,7 +253,7 @@ class AccountInfoTile extends StatelessWidget {
                     color: AppColors.appSubTitle,
                   ),
                 ),
-                 SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   value,
                   style: TextStyle(
@@ -271,5 +268,5 @@ class AccountInfoTile extends StatelessWidget {
         ],
       ),
     );
-  }
+}
 }
