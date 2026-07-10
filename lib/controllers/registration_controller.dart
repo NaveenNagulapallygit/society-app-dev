@@ -62,7 +62,11 @@ class RegistrationController extends GetxController {
 
   final RxString selectionType = ''.obs;
 
-  final RxList<String> selectionItems = <String>[].obs;
+  final RxList<String> cityItems = <String>[].obs;
+
+  final RxList<String> stateItems = <String>[].obs;
+
+  final RxList<String> societyItems = <String>[].obs;
 
   final RxList<String> filteredSelectionItems = <String>[].obs;
 
@@ -70,6 +74,29 @@ class RegistrationController extends GetxController {
 
   late TextEditingController currentSelectionController;
 
+  final RxBool hasMinLength = false.obs;
+
+  final RxBool hasUpperCase = false.obs;
+
+  final RxBool hasLowerCase = false.obs;
+
+  final RxBool hasNumber = false.obs;
+
+  final RxBool hasSpecialCharacter = false.obs;
+
+  final FocusNode passwordFocusNode = FocusNode();
+
+  final RxBool showPasswordRules = false.obs;
+
+
+  @override
+  void onInit() {
+    super.onInit();
+    passwordFocusNode.addListener(() {
+      showPasswordRules.value = passwordFocusNode.hasFocus;
+    });
+  loadSelectionItems();
+  }
 
   void togglePassword() {
     isPasswordVisible.toggle();
@@ -85,7 +112,6 @@ class RegistrationController extends GetxController {
 
   void selectRole(String role) {
     selectedRole.value = role;
-
     roleError.value = '';
 
     if (role != AppStrings.resident) {
@@ -112,6 +138,24 @@ class RegistrationController extends GetxController {
     return isFormValid &&
         roleError.value.isEmpty &&
         residentTypeError.value.isEmpty;
+  }
+
+
+  void validatePasswordRules(String password) {
+    hasMinLength.value =
+        password.length >= 8 && password.length <= 20;
+
+    hasUpperCase.value =
+        RegExp(r'[A-Z]').hasMatch(password);
+
+    hasLowerCase.value =
+        RegExp(r'[a-z]').hasMatch(password);
+
+    hasNumber.value =
+        RegExp(r'[0-9]').hasMatch(password);
+
+    hasSpecialCharacter.value =
+        RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(password);
   }
 
   String getFormattedDate() {
@@ -176,7 +220,6 @@ class RegistrationController extends GetxController {
     ];
 
     if (selectedRole.value == AppStrings.resident) {
-
       fieldsToValidate.addAll([
         towerController,
         flatController,
@@ -206,76 +249,74 @@ class RegistrationController extends GetxController {
   }
 
   void loadSelectionItems() {
+    cityItems.assignAll([
+      "Hyderabad",
+      "Chennai",
+      "Coimbatore",
+      "Bangalore",
+      "Mumbai",
+      "Delhi",
+      "Pune",
+      "Kolkata",
+      "Ahmedabad",
+      "Jaipur",
+    ]);
+
+    stateItems.assignAll([
+      "Telangana",
+      "Tamil Nadu",
+      "Karnataka",
+      "Maharashtra",
+      "Delhi",
+      "Gujarat",
+      "Rajasthan",
+      "Kerala",
+      "Andhra Pradesh",
+      "West Bengal",
+    ]);
+
+    societyItems.assignAll([
+      "My Home Bhooja",
+      "Prestige High Fields",
+      "Aparna Sarovar",
+      "Lodha Paradise",
+      "Ramky One",
+      "Brigade Cornerstone",
+      "Sobha Dream Acres",
+      "Phoenix Golf Edge",
+      "DSR Fortune Prime",
+      "Jayabheri Orange County",
+    ]);
+  }
+
+  void searchSelection(String value) {
+
+    List<String> sourceList = [];
 
     switch (selectionType.value) {
 
       case AppStrings.city:
-
-        selectionItems.assignAll([
-          "Hyderabad",
-          "Chennai",
-          "Coimbatore",
-          "Bangalore",
-          "Mumbai",
-          "Delhi",
-          "Pune",
-          "Kolkata",
-          "Ahmedabad",
-          "Jaipur",
-        ]);
-
+        sourceList = cityItems;
         break;
 
       case AppStrings.state:
-
-        selectionItems.assignAll([
-          "Telangana",
-          "Tamil Nadu",
-          "Karnataka",
-          "Maharashtra",
-          "Delhi",
-          "Gujarat",
-          "Rajasthan",
-          "Kerala",
-          "Andhra Pradesh",
-          "West Bengal",
-        ]);
-
+        sourceList = stateItems;
         break;
 
       case AppStrings.society:
-
-        selectionItems.assignAll([
-          "My Home Bhooja",
-          "Prestige High Fields",
-          "Aparna Sarovar",
-          "Lodha Paradise",
-          "Ramky One",
-          "Brigade Cornerstone",
-          "Sobha Dream Acres",
-          "Phoenix Golf Edge",
-          "DSR Fortune Prime",
-          "Jayabheri Orange County",
-        ]);
-
-        break;
-
-      default:
-        selectionItems.clear();
+        sourceList = societyItems;
         break;
     }
-    filteredSelectionItems.assignAll(selectionItems);
-  }
 
-  void searchSelection(String value) {
     if (value.trim().isEmpty) {
-      filteredSelectionItems.assignAll(selectionItems);
+      filteredSelectionItems.assignAll(sourceList);
       return;
     }
-    filteredSelectionItems.assignAll(
 
-      selectionItems.where(
-            (item) => item.toLowerCase().contains(value.toLowerCase()),
+    filteredSelectionItems.assignAll(
+      sourceList.where(
+            (item) =>
+            item.toLowerCase().contains(value.toLowerCase()),
       ).toList(),
     );
   }
@@ -285,12 +326,29 @@ class RegistrationController extends GetxController {
     required String type,
     required TextEditingController controller,
   }) {
+
     selectionTitle.value = title;
     selectionType.value = type;
     currentSelectionController = controller;
-    selectedSelectionItem.value = controller.text;
+
     searchController.clear();
-    loadSelectionItems();
+
+    switch (type) {
+
+      case AppStrings.city:
+        filteredSelectionItems.assignAll(cityItems);
+        break;
+
+      case AppStrings.state:
+        filteredSelectionItems.assignAll(stateItems);
+        break;
+
+      case AppStrings.society:
+        filteredSelectionItems.assignAll(societyItems);
+        break;
+    }
+
+    selectedSelectionItem.value = controller.text;
   }
 
   void confirmSelection() {
@@ -304,7 +362,20 @@ class RegistrationController extends GetxController {
     currentSelectionController.text =
         selectedSelectionItem.value;
      searchController.clear();
-     filteredSelectionItems.assignAll(selectionItems);
+    switch (selectionType.value) {
+
+      case AppStrings.city:
+        filteredSelectionItems.assignAll(cityItems);
+        break;
+
+      case AppStrings.state:
+        filteredSelectionItems.assignAll(stateItems);
+        break;
+
+      case AppStrings.society:
+        filteredSelectionItems.assignAll(societyItems);
+        break;
+    }
   }
 
   @override
@@ -320,6 +391,7 @@ class RegistrationController extends GetxController {
     flatController.dispose();
     towerController.dispose();
     searchController.dispose();
+    passwordFocusNode.dispose();
     super.onClose();
   }
 }

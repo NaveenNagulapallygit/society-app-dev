@@ -112,6 +112,12 @@ class AppStrings {
   static const String pending = "Pending";
   static const String role = "Role";
   static const String registeredOn = "Registered On";
+  static const String passwordInclude = "Password must include:";
+  static const String specialCharacter = "One special character (!@#\$%^&)";
+  static const String number = "One number (0-9)";
+  static const String lowercase = "One lowercase letter (a-z)";
+  static const String uppercase = "One uppercase letter (A-Z)";
+  static const String minLength = "At least 8 to Max of 20 characters";
 
    // Storage Keys
   static const String storageIsLoggedIn = "isLoggedIn";

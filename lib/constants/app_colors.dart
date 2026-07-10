@@ -15,6 +15,7 @@ class AppColors {
   static const Color pendingCardColor = Color(0xFFFEF3C7);
   static const Color cardColor = Color(0xFFF8FAFC);
   static const Color borderColor = Color(0xffe2e8f0);
+  static const Color textFieldBorder = Color(0xFFCBD5E1);
 
 
   //MARK:- Light Theme

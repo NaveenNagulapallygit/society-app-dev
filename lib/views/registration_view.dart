@@ -4,7 +4,9 @@ import 'package:society_app/constants/app_strings.dart';
 import 'package:society_app/utils/validation_helper.dart';
 import 'package:society_app/widgets/custom_textfield.dart';
 import 'package:society_app/widgets/field_label.dart';
+import 'package:society_app/widgets/occupant_switch_card.dart';
 import 'package:society_app/widgets/owner_tenant_card.dart';
+import 'package:society_app/widgets/password_validation_card.dart';
 import 'package:society_app/widgets/role_card.dart';
 import '../constants/app_colors.dart';
 import '../controllers/registration_controller.dart';
@@ -153,6 +155,7 @@ class RegistrationView extends GetView<RegistrationController> {
                       prefixIcon: Icons.lock_outline,
                       obscureText:
                       controller.isPasswordVisible.value,
+                      focusNode: controller.passwordFocusNode,
                       suffixIcon: IconButton(
                         onPressed: controller.togglePassword,
                         icon: Icon(
@@ -163,10 +166,25 @@ class RegistrationView extends GetView<RegistrationController> {
                       ),
                       validator:
                       ValidationHelper.validatePassword,
+                          onChanged: controller.validatePasswordRules,
                     ),
                   ),
 
                   SizedBox(height: 18),
+
+                  Obx(() {
+                    if (!controller.showPasswordRules.value) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return PasswordValidationCard(
+                      hasMinLength: controller.hasMinLength.value,
+                      hasUpperCase: controller.hasUpperCase.value,
+                      hasLowerCase: controller.hasLowerCase.value,
+                      hasNumber: controller.hasNumber.value,
+                      hasSpecialCharacter: controller.hasSpecialCharacter.value,
+                    );
+                  }),
 
                   FieldLabel(
                     title: AppStrings.confirmPassword,
@@ -314,6 +332,14 @@ class RegistrationView extends GetView<RegistrationController> {
                               );
                             },
                           ),
+
+                          if (controller.residentType.value.isNotEmpty) ...[
+                             SizedBox(height: 20),
+                            OccupantSwitchCard(
+                              value: controller.isOccupant.value,
+                              onChanged: controller.toggleOccupant,
+                            ),
+                          ],
                         ],
                       );
                     },
@@ -415,6 +441,11 @@ class RegistrationView extends GetView<RegistrationController> {
                 prefixIcon: Icons.location_city_outlined,
                 readOnly: true,
                 onTap: () {
+                  controller.openSelection(
+                    title: AppStrings.selectCity,
+                    type: AppStrings.city,
+                    controller: controller.cityController,
+                  );
                   Get.to(
                         () => selectionWidget(
                       context,
@@ -441,6 +472,12 @@ class RegistrationView extends GetView<RegistrationController> {
                 prefixIcon: Icons.map_outlined,
                 readOnly: true,
                 onTap: () {
+                  controller.openSelection(
+                    title: AppStrings.selectState,
+                    type: AppStrings.state,
+                    controller: controller.stateController,
+                  );
+
                   Get.to(
                         () => selectionWidget(
                       context,
@@ -467,6 +504,12 @@ class RegistrationView extends GetView<RegistrationController> {
               prefixIcon: Icons.apartment_outlined,
               readOnly: true,
               onTap: () {
+                controller.openSelection(
+                  title: AppStrings.selectSociety,
+                  type: AppStrings.society,
+                  controller: controller.societyController,
+                );
+
                 Get.to(
                       () => selectionWidget(
                     context,
@@ -570,9 +613,6 @@ class RegistrationView extends GetView<RegistrationController> {
   }
 
   Widget selectionWidget(BuildContext context, String type) {
-    controller.selectionType.value = type;
-    controller.loadSelectionItems();
-
     final String titleText = type == AppStrings.city
         ? AppStrings.selectCity
         : type == AppStrings.state
